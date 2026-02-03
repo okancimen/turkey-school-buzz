@@ -1,1 +1,7 @@
 project_id = "rdrnkewutobovbqprkkv"
+
+[functions.fetch-news]
+verify_jwt = false
+
+[functions.fetch-linkedin]
+verify_jwt = false

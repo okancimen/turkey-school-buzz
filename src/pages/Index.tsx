@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import HeroNews from "@/components/HeroNews";
 import CategoryFilter from "@/components/CategoryFilter";
 import NewsGrid from "@/components/NewsGrid";
+import AboutMe from "@/components/AboutMe";
 import Footer from "@/components/Footer";
 import { HeroNewsSkeleton, NewsGridSkeleton } from "@/components/NewsLoadingSkeleton";
 import { categories } from "@/data/newsData";
@@ -95,6 +96,8 @@ const Index = () => {
             />
           </>
         )}
+
+        <AboutMe />
       </main>
       
       <Footer />
