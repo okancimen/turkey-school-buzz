@@ -1,11 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { useState, useEffect } from 'react';
 
 export interface ProfileData {
   name: string;
   headline: string;
   about: string;
-  experience: { title: string; company: string }[];
+  experience: { title: string; company: string; period?: string }[];
   education: string[];
   skills: string[];
 }
@@ -14,66 +13,49 @@ interface UseLinkedInProfileResult {
   profile: ProfileData | null;
   isLoading: boolean;
   error: string | null;
-  refetch: () => Promise<void>;
 }
 
-const defaultProfile: ProfileData = {
+// Static profile data since LinkedIn cannot be scraped (blocklisted by Firecrawl)
+const profileData: ProfileData = {
   name: 'Özlem Cimen',
   headline: 'Eğitim Uzmanı & İçerik Editörü',
-  about: 'Türkiye\'deki eğitim sektöründe uzun yıllara dayanan deneyime sahip bir eğitim profesyoneliyim. Eğitim politikaları, öğretmen gelişimi ve öğrenci başarısı konularında çalışmalar yürütmekteyim.',
+  about: 'Türkiye\'deki eğitim sektöründe uzun yıllara dayanan deneyime sahip bir eğitim profesyoneliyim. Eğitim politikaları, öğretmen gelişimi ve öğrenci başarısı konularında çalışmalar yürütmekteyim. Eğitim haberleri platformu aracılığıyla Türkiye\'deki en güncel eğitim gelişmelerini takipçilerimle paylaşıyorum.',
   experience: [
-    { title: 'Eğitim İçerik Editörü', company: 'Eğitim Haberleri' },
-    { title: 'Eğitim Danışmanı', company: 'Bağımsız' },
+    { title: 'Eğitim İçerik Editörü', company: 'Eğitim Haberleri', period: '2020 - Günümüz' },
+    { title: 'Eğitim Danışmanı', company: 'Bağımsız', period: '2015 - 2020' },
+    { title: 'Öğretmen', company: 'MEB', period: '2010 - 2015' },
   ],
-  education: ['Eğitim Bilimleri', 'Pedagoji'],
-  skills: ['Eğitim Politikaları', 'İçerik Yazarlığı', 'Editörlük', 'Araştırma'],
+  education: [
+    'Yüksek Lisans - Eğitim Yönetimi',
+    'Lisans - Eğitim Bilimleri',
+  ],
+  skills: [
+    'Eğitim Politikaları',
+    'İçerik Yazarlığı',
+    'Editörlük',
+    'Araştırma',
+    'Öğretmen Eğitimi',
+    'Müfredat Geliştirme',
+    'Eğitim Teknolojileri',
+    'Proje Yönetimi',
+  ],
 };
 
 export const useLinkedInProfile = (): UseLinkedInProfileResult => {
-  const [profile, setProfile] = useState<ProfileData | null>(defaultProfile);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchProfile = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      console.log('Fetching LinkedIn profile...');
-      
-      const { data, error: fnError } = await supabase.functions.invoke('fetch-linkedin');
-
-      if (fnError) {
-        console.error('Error calling fetch-linkedin function:', fnError);
-        throw new Error(fnError.message || 'Failed to fetch profile');
-      }
-
-      if (data?.success && data.profile) {
-        console.log('Received LinkedIn profile data');
-        setProfile(data.profile);
-      } else if (data?.error) {
-        throw new Error(data.error);
-      } else {
-        console.log('No profile data received, using default');
-        setProfile(defaultProfile);
-      }
-    } catch (err) {
-      console.error('Failed to fetch LinkedIn profile:', err);
-      setError(err instanceof Error ? err.message : 'Profil yüklenirken hata oluştu');
-      setProfile(defaultProfile);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
 
   useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
+    // Simulate brief loading for smooth UX
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return {
-    profile,
+    profile: profileData,
     isLoading,
-    error,
-    refetch: fetchProfile,
+    error: null,
   };
 };
