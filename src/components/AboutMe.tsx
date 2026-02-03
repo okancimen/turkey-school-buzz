@@ -1,6 +1,8 @@
-import { User, Briefcase, GraduationCap, Award, Linkedin } from "lucide-react";
+import { User, Briefcase, GraduationCap, Award, Linkedin, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLinkedInProfile } from "@/hooks/useLinkedInProfile";
 
@@ -38,10 +40,18 @@ const AboutMe = () => {
   return (
     <section className="container mx-auto px-4 py-12 bg-muted/30">
       <div className="max-w-4xl mx-auto">
-        <h2 className="font-heading text-3xl font-bold text-foreground mb-8 flex items-center gap-3">
-          <User className="w-8 h-8 text-primary" />
-          Ben Kimim
-        </h2>
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="font-heading text-3xl font-bold text-foreground flex items-center gap-3">
+            <User className="w-8 h-8 text-primary" />
+            Ben Kimim
+          </h2>
+          <Button variant="ghost" asChild>
+            <Link to="/ben-kimim" className="flex items-center gap-2">
+              Daha Fazla
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </Button>
+        </div>
 
         <Card className="overflow-hidden">
           <CardContent className="p-0">

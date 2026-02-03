@@ -1,5 +1,6 @@
 import { GraduationCap, Search, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -28,9 +29,9 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            <Link to="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
               Ana Sayfa
-            </a>
+            </Link>
             <a href="#" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Sınavlar
             </a>
@@ -40,6 +41,9 @@ const Header = () => {
             <a href="#" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
               Teknoloji
             </a>
+            <Link to="/ben-kimim" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+              Ben Kimim
+            </Link>
           </nav>
 
           {/* Actions */}
@@ -86,9 +90,9 @@ const Header = () => {
         {isMenuOpen && (
           <nav className="md:hidden py-4 border-t border-border animate-slide-up">
             <div className="flex flex-col gap-3">
-              <a href="#" className="text-sm font-medium text-foreground hover:text-primary transition-colors py-2">
+              <Link to="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors py-2">
                 Ana Sayfa
-              </a>
+              </Link>
               <a href="#" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors py-2">
                 Sınavlar
               </a>
@@ -98,6 +102,9 @@ const Header = () => {
               <a href="#" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors py-2">
                 Teknoloji
               </a>
+              <Link to="/ben-kimim" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors py-2">
+                Ben Kimim
+              </Link>
             </div>
           </nav>
         )}
