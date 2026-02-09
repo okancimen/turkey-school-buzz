@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { newsArticles as fallbackArticles, NewsArticle } from '@/data/newsData';
 
@@ -50,7 +50,10 @@ export const useNews = (): UseNewsResult => {
     }
   }, []);
 
+  // Refetch every time the hook mounts (page opens)
+  const mountId = useRef(0);
   useEffect(() => {
+    mountId.current++;
     fetchNews();
   }, [fetchNews]);
 
