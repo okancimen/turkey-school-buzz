@@ -50,11 +50,10 @@ export const useNews = (): UseNewsResult => {
     }
   }, []);
 
-  // Refetch every time the hook mounts (page opens)
-  const mountId = useRef(0);
   useEffect(() => {
-    mountId.current++;
     fetchNews();
+    const interval = setInterval(fetchNews, 60 * 60 * 1000);
+    return () => clearInterval(interval);
   }, [fetchNews]);
 
   return {
