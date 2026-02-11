@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eğitim Haberleri - Türkiye'den güncel okul haberleri</title>
+    <meta name="description"
+        content="Türkiye'deki okullardan, üniversitelerden ve eğitim dünyasından en güncel haberler ve gelişmeler.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { DEFAULT: 'hsl(333, 71%, 50%)', foreground: 'hsl(327, 73%, 97%)' },
+                        accent: { DEFAULT: 'hsl(355, 100%, 97%)', foreground: 'hsl(349, 89%, 60%)' },
+                        muted: { DEFAULT: 'hsl(240, 4%, 83%)', foreground: 'hsl(240, 5%, 35%)' },
+                        card: { DEFAULT: 'hsl(0, 0%, 98%)', foreground: 'hsl(240, 5%, 10%)' },
+                        secondary: { DEFAULT: 'hsl(240, 5%, 33%)', foreground: 'hsl(0, 0%, 98%)' },
+                        foreground: 'hsl(240, 5%, 10%)',
+                        background: 'hsl(240, 4%, 95%)',
+                        border: 'hsl(240, 4%, 83%)',
+                    },
+                    fontFamily: {
+                        heading: ['Merriweather', 'serif'],
+                        body: ['Poppins', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        '2xl': '1rem',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: hsl(240, 4%, 95%);
+            color: hsl(240, 5%, 10%);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Merriweather', serif;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.6s ease-out forwards;
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==================== HEADER ==================== -->
+    <header id="header" class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-pink-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                            <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="font-heading text-xl font-bold text-gray-900">Eğitim Haberleri</h1>
+                        <p class="text-xs text-gray-500 hidden sm:block">Türkiye'den güncel okul haberleri</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="#" class="text-sm font-medium text-gray-900 hover:text-pink-600 transition-colors">Ana
+                        Sayfa</a>
+                    <a href="#"
+                        class="text-sm font-medium text-gray-500 hover:text-pink-600 transition-colors">Sınavlar</a>
+                    <a href="#" class="text-sm font-medium text-gray-500 hover:text-pink-600 transition-colors">Eğitim
+                        Politikaları</a>
+                    <a href="#"
+                        class="text-sm font-medium text-gray-500 hover:text-pink-600 transition-colors">Teknoloji</a>
+                    <a href="#ben-kimim"
+                        class="text-sm font-medium text-gray-500 hover:text-pink-600 transition-colors">Ben Kimim</a>
+                </nav>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-2">
+                    <!-- Search Toggle -->
+                    <div id="search-container" class="hidden items-center gap-2 animate-fade-in">
+                        <input id="search-input" type="text" placeholder="Haber ara..."
+                            class="w-48 h-9 px-3 rounded-md border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500">
+                        <button onclick="toggleSearch()" class="p-2 rounded-md hover:bg-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 6 6 18" />
+                                <path d="m6 6 12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <button id="search-btn" onclick="toggleSearch()" class="p-2 rounded-md hover:bg-gray-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.3-4.3" />
+                        </svg>
+                    </button>
+                    <!-- Mobile Menu -->
+                    <button id="menu-btn" onclick="toggleMenu()" class="p-2 rounded-md hover:bg-gray-100 md:hidden">
+                        <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="4" x2="20" y1="12" y2="12" />
+                            <line x1="4" x2="20" y1="6" y2="6" />
+                            <line x1="4" x2="20" y1="18" y2="18" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <nav id="mobile-menu" class="hidden md:hidden py-4 border-t border-gray-200 animate-slide-up">
+                <div class="flex flex-col gap-3">
+                    <a href="#" class="text-sm font-medium text-gray-900 hover:text-pink-600 py-2">Ana Sayfa</a>
+                    <a href="#" class="text-sm font-medium text-gray-500 hover:text-pink-600 py-2">Sınavlar</a>
+                    <a href="#" class="text-sm font-medium text-gray-500 hover:text-pink-600 py-2">Eğitim
+                        Politikaları</a>
+                    <a href="#" class="text-sm font-medium text-gray-500 hover:text-pink-600 py-2">Teknoloji</a>
+                    <a href="#ben-kimim" class="text-sm font-medium text-gray-500 hover:text-pink-600 py-2">Ben
+                        Kimim</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Live Indicator -->
+        <div class="container mx-auto px-4 pt-4">
+            <div class="flex items-center justify-between text-sm text-gray-500">
+                <div id="status-indicator" class="flex items-center gap-2">
+                    <span class="w-2 h-2 bg-pink-500 rounded-full animate-pulse"></span>
+                    Canlı Haberler
+                </div>
+                <div class="flex items-center gap-3">
+                    <span id="last-updated" class="hidden sm:inline"></span>
+                    <button onclick="fetchNews()"
+                        class="flex items-center gap-1 text-sm px-3 py-1.5 rounded-md hover:bg-gray-100 transition">
+                        <svg id="refresh-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 2v6h-6" />
+                            <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+                            <path d="M3 22v-6h6" />
+                            <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
+                        </svg>
+                        Yenile
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== HERO SECTION ==================== -->
+        <section id="hero-section" class="container mx-auto px-4 py-8 hidden">
+            <div class="grid lg:grid-cols-2 gap-6" id="hero-grid">
+                <!-- JS will inject 2 hero cards here -->
+            </div>
+        </section>
+
+        <!-- ==================== CATEGORY FILTER ==================== -->
+        <section class="container mx-auto px-4 py-6">
+            <div id="category-filter" class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                <!-- JS will inject category buttons here -->
+            </div>
+        </section>
+
+        <!-- ==================== NEWS GRID ==================== -->
+        <section class="container mx-auto px-4 py-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 id="grid-title" class="font-heading text-2xl font-bold text-gray-900">Son Haberler</h2>
+                <a href="#" class="text-sm font-medium text-pink-600 hover:text-pink-500 transition-colors">Tümünü Gör
+                    →</a>
+            </div>
+
+            <div id="loading" class="text-center py-20">
+                <div
+                    class="animate-spin inline-block w-8 h-8 border-[3px] border-current border-t-transparent text-pink-600 rounded-full">
+                </div>
+                <p class="mt-2 text-gray-500">Haberler yükleniyor...</p>
+            </div>
+
+            <div id="news-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 hidden">
+                <!-- JS will inject news cards here -->
+            </div>
+        </section>
+
+        <!-- ==================== BEN KİMİM ==================== -->
+        <section id="ben-kimim" class="container mx-auto px-4 py-12 bg-gray-100/50">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="font-heading text-3xl font-bold text-gray-900 flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="hsl(333, 71%, 50%)" stroke-width="2">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                        Ben Kimim
+                    </h2>
+                    <a href="#"
+                        class="flex items-center gap-2 text-sm text-gray-600 hover:text-pink-600 transition-colors">
+                        Daha Fazla
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14" />
+                            <path d="m12 5 7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                    <!-- Profile Header -->
+                    <div class="bg-gradient-to-r from-pink-50 via-pink-25 to-transparent p-8">
+                        <div class="flex flex-col md:flex-row gap-8 items-start">
+                            <div class="relative">
+                                <div
+                                    class="w-32 h-32 rounded-full bg-pink-100 flex items-center justify-center border-4 border-white shadow-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24"
+                                        fill="none" stroke="hsl(333, 71%, 50%)" stroke-width="1.5">
+                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
+                                </div>
+                                <a href="https://www.linkedin.com/in/ozlem-cimen-ba66aa56/" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="absolute -bottom-2 -right-2 bg-[#0077B5] text-white p-2 rounded-full hover:bg-[#005885] transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2">
+                                        <path
+                                            d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                                        <rect width="4" height="12" x="2" y="9" />
+                                        <circle cx="4" cy="4" r="2" />
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-heading text-2xl font-bold text-gray-900 mb-1">Özlem Cimen</h3>
+                                <p class="text-pink-600 font-medium mb-4">Eğitim Uzmanı & İçerik Editörü</p>
+                                <p class="text-gray-500 leading-relaxed">Türkiye'deki eğitim sektöründe uzun yıllara
+                                    dayanan deneyime sahip bir eğitim profesyoneliyim. Eğitim politikaları, öğretmen
+                                    gelişimi ve öğrenci başarısı konularında çalışmalar yürütmekteyim.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Details Grid -->
+                    <div class="grid md:grid-cols-3 gap-6 p-8 pt-6">
+                        <!-- Experience -->
+                        <div class="bg-gray-50 rounded-lg p-5">
+                            <h4 class="text-sm font-medium flex items-center gap-2 mb-3 text-gray-900">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="hsl(333, 71%, 50%)" stroke-width="2">
+                                    <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                                </svg>
+                                Deneyim
+                            </h4>
+                            <ul class="space-y-3">
+                                <li class="text-sm">
+                                    <p class="font-medium text-gray-900">Eğitim İçerik Editörü</p>
+                                    <p class="text-gray-500 text-xs">Eğitim Haberleri</p>
+                                </li>
+                                <li class="text-sm">
+                                    <p class="font-medium text-gray-900">Eğitim Danışmanı</p>
+                                    <p class="text-gray-500 text-xs">Bağımsız</p>
+                                </li>
+                                <li class="text-sm">
+                                    <p class="font-medium text-gray-900">Öğretmen</p>
+                                    <p class="text-gray-500 text-xs">MEB</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Education -->
+                        <div class="bg-gray-50 rounded-lg p-5">
+                            <h4 class="text-sm font-medium flex items-center gap-2 mb-3 text-gray-900">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="hsl(333, 71%, 50%)" stroke-width="2">
+                                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                                    <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                                </svg>
+                                Eğitim
+                            </h4>
+                            <ul class="space-y-2">
+                                <li class="text-sm text-gray-900">Yüksek Lisans - Eğitim Yönetimi</li>
+                                <li class="text-sm text-gray-900">Lisans - Eğitim Bilimleri</li>
+                            </ul>
+                        </div>
+                        <!-- Skills -->
+                        <div class="bg-gray-50 rounded-lg p-5">
+                            <h4 class="text-sm font-medium flex items-center gap-2 mb-3 text-gray-900">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="hsl(333, 71%, 50%)" stroke-width="2">
+                                    <circle cx="12" cy="8" r="6" />
+                                    <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+                                </svg>
+                                Yetenekler
+                            </h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full text-xs">Eğitim
+                                    Politikaları</span>
+                                <span class="bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full text-xs">İçerik
+                                    Yazarlığı</span>
+                                <span
+                                    class="bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full text-xs">Editörlük</span>
+                                <span
+                                    class="bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full text-xs">Araştırma</span>
+                                <span class="bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full text-xs">Öğretmen
+                                    Eğitimi</span>
+                                <span class="bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full text-xs">Müfredat
+                                    Geliştirme</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-gray-900 text-white mt-16">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-pink-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="white" stroke-width="2">
+                                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                                <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                            </svg>
+                        </div>
+                        <span class="font-heading text-xl font-bold">Eğitim Haberleri</span>
+                    </div>
+                    <p class="text-gray-400 text-sm max-w-md">Türkiye'deki okullardan, üniversitelerden ve eğitim
+                        dünyasından en güncel haberler ve gelişmeler.</p>
+                </div>
+                <!-- Categories -->
+                <div>
+                    <h4 class="font-heading font-semibold mb-4">Kategoriler</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Sınavlar</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Eğitim Politikaları</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Teknoloji</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Öğretmenler</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Yükseköğretim</a></li>
+                    </ul>
+                </div>
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-heading font-semibold mb-4">İletişim</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Hakkımızda</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">İletişim</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Gizlilik Politikası</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Kullanım Şartları</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-500">
+                <p>© 2026 Eğitim Haberleri. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const CATEGORIES = ["Tümü", "Eğitim Politikaları", "Sınavlar", "Teknoloji", "Öğretmenler", "Öğrenciler", "Yükseköğretim"];
+        let allClusters = [];
+        let selectedCategory = "Tümü";
+
+        // ===== SEARCH =====
+        function toggleSearch() {
+            const container = document.getElementById('search-container');
+            const btn = document.getElementById('search-btn');
+            const isOpen = container.classList.contains('flex');
+            if (isOpen) {
+                container.classList.remove('flex');
+                container.classList.add('hidden');
+                btn.classList.remove('hidden');
+            } else {
+                container.classList.remove('hidden');
+                container.classList.add('flex');
+                btn.classList.add('hidden');
+                document.getElementById('search-input').focus();
+            }
+        }
+
+        // ===== MOBILE MENU =====
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // ===== CATEGORY FILTER =====
+        function renderCategories() {
+            const container = document.getElementById('category-filter');
+            container.innerHTML = CATEGORIES.map(cat => `
+                <button 
+                    onclick="selectCategory('${cat}')"
+                    class="whitespace-nowrap rounded-full px-5 py-2 text-sm font-medium transition-all duration-300
+                    ${selectedCategory === cat
+                    ? 'bg-pink-600 text-white shadow-md'
+                    : 'bg-gray-300 text-gray-700 hover:bg-pink-100'
+                }"
+                >${cat}</button>
+            `).join('');
+        }
+
+        function selectCategory(cat) {
+            selectedCategory = cat;
+            renderCategories();
+            renderNewsGrid();
+            document.getElementById('grid-title').textContent = cat === 'Tümü' ? 'Son Haberler' : cat;
+        }
+
+        // ===== HERO =====
+        function renderHero(clusters) {
+            const heroGrid = document.getElementById('hero-grid');
+            const heroSection = document.getElementById('hero-section');
+
+            // Take first 2 clusters as featured
+            const featured = clusters.slice(0, 2);
+            if (featured.length === 0) return;
+
+            heroGrid.innerHTML = featured.map((cluster, idx) => {
+                const a = cluster.mainStory;
+                const imgUrl = a.image_url || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80';
+                return `
+                <article class="group relative overflow-hidden rounded-2xl bg-white shadow-md hover:shadow-xl transition-all duration-500 cursor-pointer animate-fade-in" style="animation-delay: ${idx * 0.1}s" onclick="window.open('${a.url}', '_blank')">
+                    <div class="aspect-[16/10] overflow-hidden">
+                        <img src="${imgUrl}" alt="${a.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80'">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
+                        <span class="inline-block mb-3 bg-pink-50 text-pink-600 border-0 font-medium text-xs px-3 py-1 rounded-full">${a.source}</span>
+                        <h2 class="font-heading text-2xl lg:text-3xl font-bold text-white mb-3 leading-tight">${a.title}</h2>
+                        <p class="text-white/80 text-sm lg:text-base mb-4 line-clamp-2">${a.summary || ''}</p>
+                        <div class="flex items-center gap-4 text-white/70 text-sm">
+                            <span>${formatDate(a.published_date)}</span>
+                            ${cluster.relatedStories.length > 0 ? `<span class="flex items-center gap-1">+${cluster.relatedStories.length} ilgili haber</span>` : ''}
+                        </div>
+                    </div>
+                </article>
+                `;
+            }).join('');
+
+            heroSection.classList.remove('hidden');
+        }
+
+        // ===== NEWS GRID =====
+        function renderNewsGrid() {
+            const grid = document.getElementById('news-grid');
+
+            // Skip first 2 (they are in hero)
+            let displayClusters = allClusters.slice(2);
+
+            // TODO: Category filtering would need category data in DB
+            // For now we show all non-hero clusters
+
+            grid.innerHTML = displayClusters.map((cluster, idx) => {
+                const a = cluster.mainStory;
+                const related = cluster.relatedStories;
+                const imgUrl = a.image_url || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80';
+
+                return `
+                <article class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-500 cursor-pointer animate-slide-up" style="animation-delay: ${idx * 0.1}s">
+                    <div class="aspect-[16/9] overflow-hidden relative" onclick="window.open('${a.url}', '_blank')">
+                        <img src="${imgUrl}" alt="${a.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80'">
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-white/90 backdrop-blur-sm text-gray-800 border-0 font-medium text-xs px-2.5 py-1 rounded-full">${a.source}</span>
+                        </div>
+                        <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-8 h-8 bg-pink-600 rounded-full flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-5">
+                        <h3 class="font-heading text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-pink-600 transition-colors duration-300">
+                            <a href="${a.url}" target="_blank">${a.title}</a>
+                        </h3>
+                        <p class="text-gray-500 text-sm mb-4 line-clamp-2">${a.summary || ''}</p>
+                        
+                        ${related.length > 0 ? `
+                        <div class="mt-3 pt-3 border-t border-gray-100">
+                            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">İlgili Haberler</p>
+                            <ul class="space-y-1.5">
+                                ${related.slice(0, 3).map(s => `
+                                    <li class="flex items-start gap-2">
+                                        <span class="w-1.5 h-1.5 mt-1.5 rounded-full bg-pink-400 flex-shrink-0"></span>
+                                        <a href="${s.url}" target="_blank" class="text-xs text-gray-600 hover:text-pink-600 transition-colors line-clamp-1">
+                                            <span class="font-medium text-gray-400 mr-1">[${s.source}]</span>${s.title}
+                                        </a>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                        ` : ''}
+                        
+                        <div class="flex items-center justify-between text-xs text-gray-400 mt-3">
+                            <span>${formatDate(a.published_date)}</span>
+                        </div>
+                    </div>
+                </article>
+                `;
+            }).join('');
+
+            grid.classList.remove('hidden');
+        }
+
+        // ===== HELPERS =====
+        function formatDate(dateStr) {
+            try {
+                const d = new Date(dateStr);
+                return d.toLocaleString('tr-TR', { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            } catch { return dateStr || ''; }
+        }
+
+        // ===== FETCH =====
+        async function fetchNews() {
+            const loading = document.getElementById('loading');
+            const grid = document.getElementById('news-grid');
+            const heroSection = document.getElementById('hero-section');
+
+            loading.classList.remove('hidden');
+            grid.classList.add('hidden');
+            heroSection.classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/news');
+                allClusters = await response.json();
+
+                renderHero(allClusters);
+                renderCategories();
+                renderNewsGrid();
+
+                loading.classList.add('hidden');
+
+                document.getElementById('last-updated').textContent =
+                    'Son güncelleme: ' + new Date().toLocaleTimeString('tr-TR');
+
+            } catch (error) {
+                console.error("Fetch Error:", error);
+                loading.innerHTML = '<p class="text-red-500">Haberler yüklenemedi. Lütfen tekrar deneyin.</p>';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', fetchNews);
+    </script>
+</body>
+
+</html>

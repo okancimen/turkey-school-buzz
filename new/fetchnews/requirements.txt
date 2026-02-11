@@ -1,0 +1,5 @@
+feedparser
+newspaper3k
+rapidfuzz
+lxml_html_clean
+requests
